@@ -11,8 +11,8 @@ object Main {
     implicit val system: ActorSystem = ActorSystem("my-actor-system")
     implicit val executionContext: ExecutionContextExecutor = system.dispatcher
 
-    val loginRoutes = new LoginRoutes()
-    val route: Route = loginRoutes.routes
+    val routes = Router()
+    val route: Route = routes.allRoutes
 
     val bindingFuture = Http().newServerAt("localhost", 8080).bind(route)
 

@@ -1,4 +1,3 @@
-// WebSocketRoutes.scala
 import akka.actor.ActorSystem
 import akka.http.scaladsl.model.ws.{Message, TextMessage}
 import akka.http.scaladsl.server.Directives._
@@ -14,7 +13,9 @@ class MessagingRoutes(implicit system: ActorSystem) {
       TextMessage("Unsupported message type")
   }
 
-  val routes: Route = path("ws") {
-    handleWebSocketMessages(messageFlow)
-  }
+  def routes: Route = concat(
+    path("chat") {
+      handleWebSocketMessages(messageFlow)
+    }
+  )
 }
