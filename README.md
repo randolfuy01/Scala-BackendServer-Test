@@ -1,4 +1,4 @@
-## sbt project compiled with Scala 3
+## Scala Http Server
 
 ### Usage
 
