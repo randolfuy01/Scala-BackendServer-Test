@@ -8,9 +8,10 @@ CREATE TABLE IF NOT EXISTS chat_app.user (
     date_created_timestamp TIMESTAMP
 );
 
-CREATE TABLE IF NOT EXISTS chat_app.messages (
+CREATE TABLE IF NOT EXISTS chat_app.message (
     messageid UUID PRIMARY KEY,
     senderid TEXT,
     chatroom UUID,
-    message_date TIMESTAMP
+    message TEXT,
+    timestmap TIMESTAMP
 );

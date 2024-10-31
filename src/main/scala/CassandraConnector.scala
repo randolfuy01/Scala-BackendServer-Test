@@ -38,4 +38,31 @@ object CassandraConnection {
             case _: Exception => 500
         }
     }
+
+    def deleteUser(email: String, password: String): Int = {
+        try {
+            val query = 
+                """DELETE * FROM chat_app.user WHERE email = ? AND password = ?;"""
+            val result = session.execute(query, email, password)
+            200
+        } catch {
+            case _: Exception => 500
+        }
+    }
+
+    def messaging(chat: Number, sender: String, message: String): Int = {
+        try {
+            val query =
+                """INSERT INTO chat_app.message (messageid, senderid, chatroom, message, timestmap) 
+                    |VALUES (?, ?, ?, ?);""".stripMargin
+
+            val messageid = UUID.randomUUID()
+            val timestamp = Instant.now()
+
+            session.execute(query, messageid, sender, chat, message, timestamp)
+            200
+        } catch {
+            case _: Exception => 500
+        }
+    }
 }

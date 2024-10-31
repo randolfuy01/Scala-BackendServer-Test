@@ -2,6 +2,7 @@ import akka.http.scaladsl.model.StatusCodes._
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import java.security.MessageDigest
+import scala.concurrent.java8.FuturesConvertersImpl.P
 
 class LoginRoutes {
 
@@ -45,6 +46,33 @@ class LoginRoutes {
               case 500 => InternalServerError -> "Error during login"
             }
           )
+        }
+      }
+    },
+    path ("delete-user") {
+      delete {
+        entity(as[String]) { body => 
+          val Array(email, password) = body.split(",").map(_.trim)
+          val hashedPassword = hashPassword(password, "SHA-256")
+          val verify = CassandraConnection.loginUser(email, hashedPassword)
+
+          if (verify == 401 || verify == 500) {
+            complete (
+              verify match {
+                case 401 => Unauthorized -> "Invalid email or password"
+                case 500 => InternalServerError -> "Error during login"
+              }
+            )
+          } else {
+            val status = CassandraConnection.deleteUser(email, hashedPassword)
+
+            complete (
+              status match {
+                case 200 => OK -> "User deleted successfully"
+                case _ => InternalServerError -> "Unable to delete user"
+              }
+            )
+          }
         }
       }
     }
