@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS chat_app.message (
     senderid TEXT,
     chatroom UUID,
     message TEXT,
-    timestmap TIMESTAMP
+    date_posted TIMESTAMP
 );

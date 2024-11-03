@@ -20,7 +20,7 @@ class LoginRoutes {
           val hashedPassword = hashPassword(password, "SHA-256")
 
           val status = CassandraConnection.createUser(email, hashedPassword)
-
+          
           complete(
             status match {
               case 200 => OK -> "User created successfully"

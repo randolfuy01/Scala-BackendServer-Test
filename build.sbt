@@ -14,5 +14,6 @@ lazy val root = project
       "com.typesafe.akka" %% "akka-stream" % "2.8.0",
       "ch.qos.logback" % "logback-classic" % "1.4.11",
       "com.datastax.oss" % "java-driver-core" % cassandraDriverVersion4,
+      "io.spray" %% "spray-json" % "1.3.6",
     )
   )
